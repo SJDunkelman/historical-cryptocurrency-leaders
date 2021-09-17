@@ -4,6 +4,8 @@ import os
 import const
 import requests
 import pandas as pd
+from typing import Union
+import re
 
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
 
@@ -40,3 +42,16 @@ def append_csv(existing_file: str, dataframe: pd.DataFrame, index: bool = False)
         existing = pd.read_csv(existing_file, index_col=index)
         existing = existing.append(dataframe)
         existing.to_csv(existing_file, index=index)
+
+
+def preprocess_numeric(number: Union[int, float, str]) -> float:
+    if type(number) == str:
+        number = number.replace(',', '')
+        number = re.sub(r'\s+', '', number)
+        numeric = float(re.search(r'[\d.]+', number).group())
+        if re.search(r'(?i)m', number) is not None:
+            numeric = numeric * 1E6
+        elif re.search(r'(?i)k', number) is not None:
+            numeric = numeric * 1E3
+        return numeric
+    return number
