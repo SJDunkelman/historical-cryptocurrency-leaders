@@ -48,4 +48,7 @@ if __name__ == "__main__":
             else:
                 ax1.set_ylabel('Supply change %', color='b')
             ax2.set_ylabel('Return %', color='g')
+
+            plt.savefig(f'figures/{name}_circulating_vs_return_{graph_type}.png')
+
             plt.show()
