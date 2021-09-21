@@ -107,6 +107,7 @@ for date, records in historical_market_data.items():
 
     data = data.append(new_df, ignore_index=True)
 
+# Get all unique projects that have been top 30 by market cap
 top30 = []
 dates = list(set(data['date']))
 for d in dates:
