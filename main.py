@@ -9,12 +9,6 @@ from tqdm import tqdm
 import re
 import csv
 
-# Scraping top 30 projects by market cap using coinmarketcap
-# start_date = datetime(2021, 1, 1)
-# end_date = datetime(2021, 9, 17)
-# backtest_date_range = pd.date_range(start=start_date, end=end_date)
-# backtest_timestamp_range = [d.strftime("%Y%m%d") for d in backtest_date_range]
-
 # Get all dates of historical snapshots listed
 snapshot_index_url = 'https://coinmarketcap.com/historical/'
 resp = req.get(snapshot_index_url)
@@ -46,15 +40,15 @@ def scrape_coins(coinmarket_soup, already_scraped):
     return already_scraped
 
 
-links_2020s = [l for l in links if re.search(r'/202', l) is not None]
+links = [l for l in links if re.search(r'/202', l) is not None]
 
-## FOR DEBUGGED RUN
+"""
+# FOR DEBUG RUN
 idx = links_2020s.index('/historical/20210606/')
 links_2020s = links_2020s[idx+1:]
-##
+"""
 
-for resource in tqdm(links_2020s):
-# resource = links[10]
+for resource in tqdm(links):
     coin_market_url = f'https://coinmarketcap.com/{resource}'
     date = re.search(r'\d+', resource).group()
     date = datetime.strptime(date, "%Y%m%d").date()
